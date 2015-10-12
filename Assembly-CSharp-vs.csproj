@@ -46,8 +46,10 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\AIplayerDiplomat.cs" />
      <Compile Include="Assets\Scripts\Action.cs" />
-     <Compile Include="Assets\Scripts\ExamineAClueAction.cs" />
+     <Compile Include="Assets\Scripts\ExamineClueA.cs" />
+     <Compile Include="Assets\Scripts\FiniteStateMachine.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
