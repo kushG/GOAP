@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public abstract class Action : MonoBehaviour {
 
-	// Character who is examining the clue(Scientist, Historian, Diplomat or Maverick)
-	public GameObject character;
+	// Object on which action is performed. Required while movetowards state
+	public GameObject target;
 
 	//cost for performing a action
 	public float cost = 1f;
@@ -15,18 +15,24 @@ public abstract class Action : MonoBehaviour {
 
 	public bool inRange = false;
 
+	// returns true if action is done
+	public bool isDone = false;
 
-	//Move towards the clue to examine the clue
-	public abstract void moveTowards();
+	public Action(){
+		preconditions = new HashSet<KeyValuePair<string, object>>();
+		effects = new HashSet<KeyValuePair<string, object>>();
+	}
 
 
 	// Return true if an action has been performed
 	public abstract bool performAction();
 
+	// check required to verify if player needs to move toweards the object to perform action.
+	public abstract bool requiresInRange ();
+
 	public bool isInRange(){
 		return inRange;
 	}
-	
 
 	public void addPreconditions(string key, object value){
 		preconditions.Add(new KeyValuePair<string, object>(key, value));

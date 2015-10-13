@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class GoapPlayerAgent : MonoBehaviour {
-	private FiniteStateMachine stateMachine;
+/*	private FiniteStateMachine stateMachine;
 	private FiniteStateMachine.FSMState idle;
 	private FiniteStateMachine.FSMState moveTowardsClue;
 	private FiniteStateMachine.FSMState performAction;
@@ -52,7 +52,7 @@ public class GoapPlayerAgent : MonoBehaviour {
 
 
 			//Plan
-			Queue<Action> plan = planner.plan (gameObject, availableActions:, worldstate, goal);
+			Queue<Action> plan = planner.plan (gameObject, availableActions, worldstate, goal);
 			if(plan !=null){
 				currentAcions = plan;
 				fsm.popState();
@@ -71,7 +71,7 @@ public class GoapPlayerAgent : MonoBehaviour {
 	//TODO
 		moveTowardsClue = (fsm, gameObject) => {
 
-		}
+		};
 	}
 
 	private void createPerformActionState(){
@@ -117,10 +117,9 @@ public class GoapPlayerAgent : MonoBehaviour {
 			fsm.pushState(idleState);
 			dataProvider.actionsFinished();
 		}
-		
-	};
+
 	}
 
-
+*/
 }
 

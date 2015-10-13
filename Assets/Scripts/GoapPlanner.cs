@@ -2,12 +2,12 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class GoapPlanner : MonoBehaviour {
+public class GoapPlanner {
 
-	public bool plan(GameObject player, HashSet<Action> availableActions, HashSet<KeyValuePair<string, object>> worldstate, HashSet<KeyValuePair<string, object>> goal){
-		foreach (Action action in availableActions) {
+	public Queue<Action> plan(GameObject player, HashSet<Action> availableActions, HashSet<KeyValuePair<string, object>> worldstate, HashSet<KeyValuePair<string, object>> goal){
+
 			// create a tree to keep track of sequence of actions
-			Node start = new Node(0, worldstate, action);
+			Node start = new Node(null, 0, worldstate, null);
 
 			List<Node> children = new List<Node>();
 
@@ -16,8 +16,44 @@ public class GoapPlanner : MonoBehaviour {
 			 * At each node update current state with Effects of previous/Parent Node.
 			*/
 
-		}
-		
+
+			bool success = Traverse(start, goal, availableActions, children);
+
+			
+			if (!success) {
+				// No plan yet
+				Debug.Log("NO PLAN");
+				return null;
+			}
+
+			// get the cheapest child
+			Node cheapest = null;
+			foreach (Node child in children) {
+				if (cheapest == null)
+					cheapest = child;
+				else {
+					if (child.cost < cheapest.cost)
+						cheapest = child;
+				}
+			}
+			
+			// get its node and work back through the parents
+			List<Action> result = new List<Action> ();
+			Node n = cheapest;
+			while (n != null) {
+				if (n.action != null) {
+					result.Insert(0, n.action); // insert the action in the front
+				}
+				n = n.parent;
+			}
+			// we now have this action list in correct order
+			
+			Queue<Action> queue = new Queue<Action> ();
+			foreach (Action a in result) {
+				queue.Enqueue(a);
+			}
+			// plan found
+			return queue;		
 	}
 
 	/// <summary>
@@ -27,7 +63,7 @@ public class GoapPlanner : MonoBehaviour {
 	/// <param name="goal">Goal state.</param>
 	/// <param name="availableActions">Available actions.</param>
 	/// <param name="children">Children Nodes.</param>
-	public void Traverse(Node parent, HashSet<KeyValuePair<string, object>> goal, List<Action> availableActions, List<Node> children )
+	public bool Traverse(Node parent, HashSet<KeyValuePair<string, object>> goal, HashSet<Action> availableActions, List<Node> children )
 	{
 		bool foundOne = false;
 
@@ -47,7 +83,7 @@ public class GoapPlanner : MonoBehaviour {
 					foundOne = true;
 				} else {
 					// not at a solution yet, so test all the remaining actions and branch out the tree
-					HashSet<GoapAction> subset = actionSubset(availableActions, action);
+					HashSet<Action> subset = actionSubset(availableActions, action);
 					bool found = Traverse(node, goal, subset, children);
 					if (found)
 						foundOne = true;
@@ -96,7 +132,7 @@ public class GoapPlanner : MonoBehaviour {
 			bool exists = false;
 			
 			foreach (KeyValuePair<string,object> s in state) {
-				if (s.Equals(change)) {
+				if (s.Key.Equals(change.Key)) {
 					exists = true;
 					break;
 				}
@@ -130,7 +166,7 @@ public class GoapPlanner : MonoBehaviour {
 		return subset;
 	}
 
-	class Node{
+	public class Node{
 		public Node parent;
 		public HashSet<KeyValuePair<string, object>> state;
 		public float cost;

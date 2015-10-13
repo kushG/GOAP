@@ -6,13 +6,19 @@ public class PickClueA : Action {
 	private bool cluePicked = false;
 
 	public PickClueA(){
-		Preconditions.Add ("Clue A Resolved", false);
-		Effects.Add ("picked Clue A", true);
+		addPreconditions ("Clue A Resolved", false);
+		addEffects ("picked Clue A", true);
+	}
+
+	public override bool requiresInRange (){
+		target = GameObject.Find("Clue A");
+		return true;
 	}
 	
 	public override bool performAction ()
 	{
 		cluePicked = true;
+		isDone = true;
 		return true;
 	}
 }

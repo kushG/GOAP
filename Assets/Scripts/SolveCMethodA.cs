@@ -6,8 +6,13 @@ public class SolveCMethodA : Action {
 	private bool clueCSolved = false;
 	
 	public SolveCMethodA(){
-		Preconditions.Add ("picked Clue C", false);
-		Effects.Add ("Clue C Resolved", true);
+		cost = 2.0f;
+		addPreconditions ("picked Clue C", true);
+		addEffects ("Clue C Resolved", true);
+	}
+
+	public override bool requiresInRange (){
+		return false;
 	}
 	
 	public override bool performAction ()
