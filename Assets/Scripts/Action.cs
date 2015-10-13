@@ -7,6 +7,9 @@ public abstract class Action : MonoBehaviour {
 	// Character who is examining the clue(Scientist, Historian, Diplomat or Maverick)
 	public GameObject character;
 
+	//cost for performing a action
+	public float cost = 1f;
+
 	private HashSet<KeyValuePair<string, object>> preconditions;
 	private HashSet<KeyValuePair<string, object>> effects;
 

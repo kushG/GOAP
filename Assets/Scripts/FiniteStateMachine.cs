@@ -1,44 +1,26 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System;
 
-public class FiniteStateMachine : MonoBehaviour {
-	public GameObject[] clues = new GameObject[3];
-	public GameObject aiPlayer;
-	public string state;
+public class FiniteStateMachine {
 
+	private Stack<FSMState> stateStack = new Stack<FSMState> ();
 
-	public bool IdleState(){
-		state = "Idle";
-		movetowardsClueState();
-		return true;
+	public delegate void FSMState( FiniteStateMachine fsm, GameObject gameobject);
 
-	}
-
-	public bool movetowardsClueState(){
-		state = "moveTowardsClue";
-		float minDistance = 0;
-		GameObject nearestClue;
-		foreach(GameObject clue in clues){
-			if(nearestClue == null){
-				nearestClue = clue;
-				minDistance = (clue.transform.position - aiPlayer.transform.position).magnitude;
-			}
-			else{
-				float distance = (clue.transform.position - aiPlayer.transform.position).magnitude;
-				if(distance < minDistance){
-					minDistance = distance;
-					nearestClue = clue;
-				}
-			}
+	public void Update(GameObject gameobject){
+		if(stateStack.Peek() != null){
+			stateStack.Invoke(this, gameobject);
 		}
-
-		return true;
 	}
 
-	public bool solveClue(){
-		state = "solveClue";
-		return true;
-
+	public void pushState(FSMState state) {
+		stateStack.Push (state);
+	}
+	
+	public void popState() {
+		stateStack.Pop ();
 	}
 
 }

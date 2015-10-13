@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
-public class AIplayerDiplomat : MonoBehaviour {
-
-	public int actionPoints = 2;
+public class SolveCMethodC : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
