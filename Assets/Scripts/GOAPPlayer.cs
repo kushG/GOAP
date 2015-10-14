@@ -110,7 +110,14 @@ public class GOAPPlayer : MonoBehaviour {
 				return;
 			}
 
-			if(movePlayerTowardsClue(action)){
+			player.movePlayer = true;
+			player.targetAction = action;
+
+			while(player.movePlayerTowardsClue() == false){
+				continue;
+			}
+
+			if(player.movePlayerTowardsClue()){
 				fsm.popFSM();
 			}
 		}
